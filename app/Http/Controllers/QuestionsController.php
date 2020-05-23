@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use Illuminate\Http\Request;
+use App\Http\Requests\AskQuestionRequest;
 use Symfony\Component\Console\Question\Question as QuestionQuestion;
 
 class QuestionsController extends Controller
@@ -39,9 +40,11 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AskQuestionRequest $request)
     {
-        //
+        // $request->user()->questions()->create($request->all());
+        $request->user()->questions()->create($request->only('title','body'));
+        return redirect()->route('questions.index')->with('success','Your question has been submitted');
     }
 
     /**
